@@ -22,12 +22,12 @@ function getArrayParams(arr) {
 }
 
 function summElementsWorker(...arr)
-function sumElementWorker(arr) {
-    let sum = arr.reduce((sum, current) => {
-        sum += current;
-        return sum;
+function summElementsWorker(arr) {
+    let summ = arr.reduce((sum, current) => {
+        summ += current;
+        return summ;
     }, 0)
-    return sum
+    return summ
 }
 
 
@@ -93,8 +93,26 @@ console.log(differenceEvenOddWorker(TestArray));
 console.log(averageEvenElementsWorker(TestArray));
 
 
-function makeWork (arrOfArr, func) {
-let sumEvenElement=0;
-let countEvenElement=0;
+function makeWork (arrOfArr, func){
+let maxWorkerResult = -Infinity;
+    let res = 0;
+    console.log(arrOfarr.length);
+    for (let i=0; i < arrOfarr.length; i++) {
+        console.log(...arrOfarr[i])
+        res = func(arrOfarr[i]);
+        if (res > maxWorkerResult) {
+             maxWorkerResult = res;
+        }
+    }
+    return res;
+
+}
+
+const arr2 = [[10, 10, 11, 20, 10], [67, 10, 2, 39, 88], [72, 75, 51, 87, 43], [30, 41, 55, 96, 62]];
+
+console.log(makeWork(arr2, sumElementWorker));
+
+console.log(makeWork(arr2, differenceEvenOddWorker));{
+
 
 }
