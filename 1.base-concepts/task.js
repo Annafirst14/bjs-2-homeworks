@@ -1,4 +1,5 @@
 "use strict"
+// task 1
 function solveEquation(a, b, c) {
   var discriminant = b * b - 4 * a * c
   var roots = []
@@ -23,7 +24,7 @@ var b = -3
 var c = 2
 var result = solveEquation(a, b, c)
 console.log(result)
-
+// Output: [1, 2]
 
 // task 2
 function calculateTotalMortgage(percent, contribution, amount, countMonths) {
@@ -56,7 +57,6 @@ console.log(calculateTotalMortgage(10, 20000, 20000, 24))
 console.log(calculateTotalMortgage(10, 0, 10000, 36))
 console.log(calculateTotalMortgage(15, 0, 10000, 36))
 
-
 //function solveEquation(a, b, c) {
 //  let arr = [x1];
 //  let D=b**4*a*c;
@@ -88,13 +88,3 @@ console.log(calculateTotalMortgage(15, 0, 10000, 36))
   //   return total.toFixed(2);
 // }
 
- console.log(calculateTotalMortgage(10,0,50000,12));
- console.log(calculateTotalMortgage(10,1000,50000,12));
- console.log(calculateTotalMortgage(10,0,20000,24));
- console.log(calculateTotalMortgage(10,1000,20000,24));
- console.log(calculateTotalMortgage(10,20000,20000,24));
- console.log(calculateTotalMortgage(10,0,10000,36));
- console.log(calculateTotalMortgage(15,0,10000,36));
-
- return arr
-}
