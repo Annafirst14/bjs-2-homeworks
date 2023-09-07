@@ -55,7 +55,7 @@ console.log(getUsersNamesInAgeRange(people, "инопланетянин"))
 
  // let compareFunc = arr1.length === arr2.length && arr1.every((element, index) => element === arr2[index]);
   //    return compareFunc;
-}
+//}
   //console.log(compareArrays([1,2,4,4],[1,2,3,4]));
 
 
