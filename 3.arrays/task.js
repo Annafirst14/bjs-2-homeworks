@@ -107,4 +107,4 @@ console.log(getUsersNamesInAgeRange(people, "инопланетянин"))
 
 //let avg = data.reduce((r,i) => r + i.age/data.length, 0.0);
 //console.log(avg);
-  function getUsersNamesInAgeRange(users, gender) {
+
