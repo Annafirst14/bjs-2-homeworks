@@ -50,7 +50,7 @@ class Triangle {
 function getTriangle(side1, side2, side3) {
   try {
     const triangle = new Triangle(side1, side2, side3)
-    return Object.freeze(triangle)
+    return Object.(triangle)
   } catch (error) {
     return {
       get perimeter() {
