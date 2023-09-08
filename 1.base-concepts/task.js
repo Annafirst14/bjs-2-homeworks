@@ -1,41 +1,33 @@
 "use strict"
 // task 1
 function solveEquation(a, b, c) {
-  var discriminant = b * b - 4 * a * c
-  var roots = []
+  let discriminant = b * b - 4 * a * c
+  const roots = []
 
   if (discriminant < 0) {
     return roots
   } else if (discriminant === 0) {
-    var root = -b / (2 * a)
+    const root = -b / (2 * a)
     roots.push(root)
   } else {
-    var sqrtDiscriminant = Math.sqrt(discriminant)
-    var root1 = (-b + sqrtDiscriminant) / (2 * a)
-    var root2 = (-b - sqrtDiscriminant) / (2 * a)
+    let sqrtDiscriminant = Math.sqrt(discriminant)
+    const root1 = (-b + sqrtDiscriminant) / (2 * a)
+    const root2 = (-b - sqrtDiscriminant) / (2 * a)
     roots.push(root1, root2)
   }
 
   return roots
 }
 
-var a = 1
-var b = -3
-var c = 2
-var result = solveEquation(a, b, c)
+let a = 1
+let b = -3
+let c = 2
+let result = solveEquation(a, b, c)
 console.log(result)
 // Output: [1, 2]
 
 // task 2
 function calculateTotalMortgage(percent, contribution, amount, countMonths) {
-  if (
-    typeof percent !== "number" ||
-    typeof contribution !== "number" ||
-    typeof amount !== "number" ||
-    typeof countMonths !== "number"
-  ) {
-    return false
-  }
 
   percent = percent / 100
   var monthlyRate = percent / 12
