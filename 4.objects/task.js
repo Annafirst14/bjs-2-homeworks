@@ -18,11 +18,7 @@ Student.prototype.addMarks = function (...marksToAdd) {
 }
 
 Student.prototype.getAverage = function () {
-   if (!this.marks) {
-      return 0;
-    }
-
-    if (this.marks.length === 0) {
+   if (!this.marks || this.marks.length === 0) {
       return 0;
     }
 
@@ -35,8 +31,8 @@ Student.prototype.getAverage = function () {
 }
 
 Student.prototype.exclude = function (reason) {
-  this.marks = undefined;
-      this.subject = undefined;
+  this.marks = delete;
+      this.subject = delete;
       this.excluded = reason;
 }
 let student1 = new Student("Василиса", "женский", 19);
