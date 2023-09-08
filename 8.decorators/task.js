@@ -1,58 +1,111 @@
 //Задача № 1
 
-function cachingDecoratorNew(func) {
-  const cache = []
+describe("Домашнее задание к занятию 8 «Функции декораторы»", () => {
+  describe("Задача №1 Усовершенствованный кеширующий декоратор", () => {
+    let add2 = (a, b) => a + b;
+    let multiply3 = (a, b, c) => a * b * c;
+    let upgAdd2;
+    let upgMultiply3;
 
-  function wrapper(...args) {
-    const hash = md5(JSON.stringify(args))
-    const cachedItem = cache.find((item) => item.hash === hash)
 
-    if (cachedItem) {
-      console.log("Из кэша: " + cachedItem.value)
-      return "Из кэша: " + cachedItem.value
-    }
+    beforeEach(function(){
+      upgAdd2 = cachingDecoratorNew(add2);
+      upgMultiply3 = cachingDecoratorNew(multiply3);
+    });
 
-    const result = func(...args)
-    cache.push({ hash, value: result })
+    it("Декоратор кеширует", () => {
+      expect(upgAdd2(1, 2)).toEqual("Вычисляем: 3");
+      expect(upgAdd2(1, 2)).toEqual("Из кеша: 3");
+      expect(upgAdd2(1, 2)).toEqual("Из кеша: 3");
+    });
 
-    if (cache.length > 5) {
-      cache.shift()
-    }
+    it("Декоратор кеширует функцию 3х аргументов", () => {
+      expect(upgMultiply3(2, 2, 3)).toEqual("Вычисляем: 12");
+      expect(upgMultiply3(2, 2, 3)).toEqual("Из кеша: 12");
+      expect(upgMultiply3(2, 2, 3)).toEqual("Из кеша: 12");
+    });
 
-    console.log("Вычисляем: " + result)
-    return "Вычисляем: " + result
-  }
+    it("Декоратор кеширует только 5 значений", () => {
+      expect(upgMultiply3(2, 2, 4)).toEqual("Вычисляем: 16"); // должно будет удалиться
+      expect(upgMultiply3(2, 2, 5)).toEqual("Вычисляем: 20");
+      expect(upgMultiply3(2, 2, 6)).toEqual("Вычисляем: 24");
+      expect(upgMultiply3(2, 2, 7)).toEqual("Вычисляем: 28");
+      expect(upgMultiply3(2, 2, 8)).toEqual("Вычисляем: 32");
+      expect(upgMultiply3(2, 2, 8)).toEqual("Из кеша: 32");
+      expect(upgMultiply3(2, 2, 3)).toEqual("Вычисляем: 12");
+      expect(upgMultiply3(2, 2, 4)).toEqual("Вычисляем: 16"); // должно заново вычисляться
+    });
+  });
 
-  return wrapper
-}
+  describe("Задача №2 Усовершенствованный декоратор отложенного вызова", () => {
 
-//Задача № 2
-function debounceDecoratorNew(func, delay) {
-  let timeoutId
-  let count = 0
-  let allCount = 0
+    it("Декоратор выполняет первый синхронный вызов функции", () => {
+      let hasCalled = false;
+      const functionToDecorate = () => {
+        console.log("тук тук");
+        hasCalled = !hasCalled;
+      }
+      const decoratedFunction = debounceDecoratorNew(functionToDecorate, 100);
+      decoratedFunction(1, 2, 3);
+      expect(hasCalled).toBe(true);
+    });
 
-  function wrapper(...args) {
-    clearTimeout(timeoutId)
+    it("Декоратор выполнит второй вызов асинхронно функции", (done) => {
+      let hasCalled = false;
+      const functionToDecorate = () => {
+        console.log("тук тук");
+        hasCalled = !hasCalled;
+      }
+      const decoratedFunction = debounceDecoratorNew(functionToDecorate, 100);
+      decoratedFunction(1, 2, 3);
+      expect(hasCalled).toBe(true);
 
-    if (!timeoutId) {
-      func(...args)
-      count++
-    }
+      decoratedFunction(1, 2, 3);
+      expect(hasCalled).toBe(true);
 
-    timeoutId = setTimeout(() => {
-      func(...args)
-      timeoutId = undefined
-    }, delay)
+      setTimeout(() => {
+        expect(hasCalled).toBe(false);
+        done();
+      }, 150);
+    });
 
-    allCount++
+    it("Декоратор считает общее количество вызовов функции", () => {
+      const functionToDecorate = () => console.log("тук тук");
+      const decoratedFunction = debounceDecoratorNew(functionToDecorate, 100);
+      expect(decoratedFunction.allCount).toBe(0);
+      decoratedFunction(1, 2, 3);
+      expect(decoratedFunction.allCount).toBe(1);
 
-    wrapper.count = count
-    wrapper.allCount = allCount
-  }
+      decoratedFunction(1, 2, 3);
+      expect(decoratedFunction.allCount).toBe(2);
+    });
 
-  wrapper.count = 0
-  wrapper.allCount = 0
+    it("Декоратор считает количество вызовов переданной функции", (done) => {
+      const functionToDecorate = () => console.log("тук тук");
+      const decoratedFunction = debounceDecoratorNew(functionToDecorate, 100);
+      expect(decoratedFunction.count).toBe(0);
+      decoratedFunction(1, 2, 3);
+      expect(decoratedFunction.count).toBe(1);
 
-  return wrapper
-}
+      decoratedFunction(1, 2, 3);
+      expect(decoratedFunction.count).toBe(1);
+
+      setTimeout(() => {
+        decoratedFunction(1, 2, 3);
+        expect(decoratedFunction.count).toBe(2);
+      }, 150);
+
+      setTimeout(() => {
+        decoratedFunction(1, 2, 3);
+        expect(decoratedFunction.count).toBe(2);
+      }, 200);
+
+      setTimeout(() => {
+        decoratedFunction(1, 2, 3);
+        expect(decoratedFunction.count).toBe(3);
+        expect(decoratedFunction.allCount).toBe(5);
+        done();
+      }, 400);
+    });
+  });
+});
